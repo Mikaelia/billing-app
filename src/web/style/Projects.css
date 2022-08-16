@@ -1,0 +1,22 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.Projects {
+  min-height: 100vh;
+}
+
+.Projects__header {
+  padding: 16px 24px;
+  background-color: #5a3030;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Projects__content {
+  padding: 16px 24px;
+}
