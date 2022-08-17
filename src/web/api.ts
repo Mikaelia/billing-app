@@ -14,6 +14,16 @@ class InvoicelyApi {
       throw new Error('Unable to fetch projects')
     }
   }
+
+  static async getProject(id:string) {
+    try {
+      const req = await axios.get(`${BASE_URL}/${id}`)
+      const { project } = req.data
+      return project
+    } catch (err) {
+      throw new Error('Unable to fetch project')
+    }
+  }
 }
 
 export default InvoicelyApi

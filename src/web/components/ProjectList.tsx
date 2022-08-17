@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import '../style/ProjectList.css'
 import InvoicelyApi from '../api'
+import {
+  Link
+} from "react-router-dom";
 
 interface HomepageProject {
   id: string
@@ -26,8 +29,8 @@ export default function ProjectList() {
       <h1 className="ProjectList__header">All projects</h1>
       {projects.map((project) => (
         <div key={project.id} className="ProjectList__projectCard">
-          {project.title}
-        </div>
+          <Link to={`/invoices/${project.id}`}>{project.title}</Link>
+        </div  >
       ))}
     </div>
   )

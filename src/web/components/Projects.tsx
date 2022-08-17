@@ -1,4 +1,5 @@
 import ProjectList from './ProjectList'
+import Invoice from "./Invoice"
 import '../style/Projects.css'
 import { Routes, Route } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +16,8 @@ function Projects() {
       <div className="Projects__content">
         <Routes>
           <Route path="/readme" element={<ReadMe />} />
-          <Route path="*" element={<ProjectList />} />
+          <Route path="/" element={<ProjectList />} />
+          <Route path="/invoices/:id" element={<Invoice />} />
         </Routes>
       </div>
     </>
