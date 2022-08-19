@@ -60,9 +60,9 @@ export default function ReadMe() {
           practices.
         </li>
         <li>
-          <b>UX:</b> The website is friendly and intuitive to use, and you've made good design
-          and layout decisions. We're not expecting professional-grade visual design, but do want to
-          see a neat, modern interface.
+          <b>UX:</b> The website is friendly and intuitive to use, and you've made good design and
+          layout decisions. We're not expecting professional-grade visual design, but do want to see
+          a neat, modern interface.
         </li>
       </ul>
       <h4>Getting started</h4>

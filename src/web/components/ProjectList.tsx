@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
-import '../style/ProjectList.css'
 import InvoicelyApi from '../api'
-import {
-  Link
-} from "react-router-dom";
+import { Link } from 'react-router-dom'
+import ItemCard from './ItemCard'
+import styled from 'styled-components'
 
+const StyledProjectList = styled.div`
+  border-top: ${(props) => props.theme.border};
+`
+
+// revisit this --- when to use interface not type
 interface HomepageProject {
   id: string
   title: string
@@ -25,13 +29,10 @@ export default function ProjectList() {
   }, [])
 
   return (
-    <div className="ProjectList">
-      <h1 className="ProjectList__header">All projects</h1>
+    <StyledProjectList>
       {projects.map((project) => (
-        <div key={project.id} className="ProjectList__projectCard">
-          <Link to={`/invoices/${project.id}`}>{project.title}</Link>
-        </div  >
+        <ItemCard key={project.id} url={`/invoices/${project.id}`} title={project.title}></ItemCard>
       ))}
-    </div>
+    </StyledProjectList>
   )
 }
