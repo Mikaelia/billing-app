@@ -21,6 +21,7 @@ const theme = {
     bodyLarge: '1.5rem',
   },
   borderRadius: {
+    small: '.25rem',
     standard: '.5rem',
   },
   border: '2px solid #ececec',

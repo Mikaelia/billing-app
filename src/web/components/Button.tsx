@@ -10,9 +10,7 @@ const StyledButton = styled.button`
   cursor: pointer;
 
   :hover {
-    background: #e0e5ff;
-    border: 3px solid ${(props) => props.theme.colors.blue};
-    color: ${(props) => props.theme.colors.blue};
+    background: #011db4;
   }
 
   &.text-button {

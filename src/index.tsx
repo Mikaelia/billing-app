@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './web/App'
 import reportWebVitals from './web/reportWebVitals'
+import 'typeface-rubik'
 
 ReactDOM.render(
   <React.StrictMode>
