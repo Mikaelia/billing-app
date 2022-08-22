@@ -59,7 +59,8 @@ export default function InvoicePage() {
     console.log(count)
   }
 
-  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+  const deleteInvoiceItem = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    e.preventDefault()
     if (project) {
       // needed?
       const newProject: Project = { ...project }
@@ -77,7 +78,7 @@ export default function InvoicePage() {
   }
 
   /** FOR FORM TO HANDLE */
-  const handleNewItem = async (e: React.FormEvent, item: LineItem) => {
+  const handleNewItem = async (item: LineItem) => {
     if (project) {
       const newProject: Project = { ...project }
       newProject!.invoice.lineItems.push(item)
@@ -110,15 +111,11 @@ export default function InvoicePage() {
   // create an editing and adding state
   return project ? (
     <>
-      <InvoicePanel
-        handleAdd={handleAdd}
-        handleDelete={handleDelete}
-        project={project}
-      ></InvoicePanel>
+      <InvoicePanel handleAdd={handleAdd} project={project}></InvoicePanel>
       {currentLineItem ? (
         <InvoiceItemDetailPanel
-          project={project}
           editInvoiceItem={editInvoiceItem}
+          deleteInvoiceItem={deleteInvoiceItem}
           item={currentLineItem}
         ></InvoiceItemDetailPanel>
       ) : action === 'creating' ? (

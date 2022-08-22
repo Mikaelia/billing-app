@@ -1,10 +1,8 @@
-import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import InvoicelyApi from '../api'
-import LineItemList from './LineItemList'
 import styled from 'styled-components'
+
+import LineItemList from './LineItemList'
 import Button from './Button'
-import { Link } from 'react-router-dom'
 
 const StyledInvoicePanel = styled.div`
   display: flex;
@@ -39,16 +37,11 @@ type Project = {
 
 type Props = {
   project: Project
-  handleDelete: (e: React.MouseEvent<HTMLButtonElement>, itemId: string) => void
   handleAdd: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
-export default function InvoicePanel({ project, handleDelete, handleAdd }: Props) {
+export default function InvoicePanel({ project, handleAdd }: Props) {
   const [projectData, setProjectData] = useState<Project | null>(null)
-  const [invoiceData, setInvoiceData] = useState<Invoice | null>(null)
 
-  const { id } = useParams()
-
-  // Fetch all projects from the API
   useEffect(() => {
     setProjectData(project)
   }, [project])
@@ -57,10 +50,7 @@ export default function InvoicePanel({ project, handleDelete, handleAdd }: Props
     <StyledInvoicePanel>
       <h1>{projectData.title}</h1>
       <Button onClick={handleAdd}>Add New</Button>
-      <LineItemList
-        handleDelete={handleDelete}
-        lineItems={projectData.invoice.lineItems}
-      ></LineItemList>
+      <LineItemList lineItems={projectData.invoice.lineItems}></LineItemList>
     </StyledInvoicePanel>
   ) : (
     <div>No Project Found</div>
