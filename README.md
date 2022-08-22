@@ -15,3 +15,23 @@ This project contains a frontend and backend, with data stored in a JSON file.
 To run prettier, run `yarn prettier`.
 To run eslint, run `yarn eslint`.
 To run tests, run `yarn test --watchAll=false`.
+
+---
+
+Done differently. Used plain css with custom props for theming. Cleaner.
+
+Set defaults for h1 tags etc.
+
+Caching api calls
+
+Obviously a lot of the components are OOTB. Real ones would be much more robust, tested, acessible, and extensible
+
+when to use type vs interface
+
+creating project -- why empty one with ids etc. Then I have to overwrite?
+
+accessibilty will be an issue
+
+better way ? equivalent of emitting data
+
+Could use a 404 page

@@ -14,9 +14,9 @@ export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
   const [currentLineItem, setCurrentLineItem] = useState<LineItem | undefined>(undefined)
   // replace with action
-  const [count, setCount] = useState(0)
   const [action, setAction] = useState('viewing')
   const navigate = useNavigate()
+
   const { id: projectId, itemId } = useParams()
 
   /** Fetches project based on id from url param */
@@ -26,24 +26,22 @@ export default function InvoicePage() {
       setProject(project)
     }
     fetchProjects()
-    console.log('RERENDER')
-    console.log(project)
-  }, [projectId, count])
+  }, [projectId])
+
+  useEffect(() => {
+    if (project && action !== 'creating') {
+      const firstItem = project.invoice.lineItems[0]
+      navigate(`/invoices/${project!.id}/item/${firstItem.id}`)
+    }
+  }, [project])
 
   /** If there's an itemId in the url params, stores the current item */
   useEffect(() => {
     if (project) {
       const currentLineItem = project.invoice.lineItems.filter((v) => v.id === itemId)[0]
       setCurrentLineItem(currentLineItem)
-      console.log(currentLineItem)
     }
   }, [project, itemId])
-
-  const handleChange = () => {
-    console.log('change')
-    setCount(count + 1)
-    console.log(count)
-  }
 
   const deleteInvoiceItem = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault()

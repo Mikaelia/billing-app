@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import LineItemList from './LineItemList'
@@ -31,6 +32,8 @@ type Props = {
 export default function InvoicePanel({ project, handleAdd }: Props) {
   const [projectData, setProjectData] = useState<Project | null>(null)
 
+  const { itemId } = useParams()
+
   useEffect(() => {
     setProjectData(project)
   }, [project])
@@ -39,7 +42,7 @@ export default function InvoicePanel({ project, handleAdd }: Props) {
     <StyledInvoicePanel>
       <h1>{projectData.title}</h1>
       <Button onClick={handleAdd}>Add New</Button>
-      <LineItemList lineItems={projectData.invoice.lineItems}></LineItemList>
+      <LineItemList activeItemId={itemId} lineItems={projectData.invoice.lineItems}></LineItemList>
     </StyledInvoicePanel>
   ) : (
     <div>No Project Found</div>

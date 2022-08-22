@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 const StyledCard = styled.div`
   border-bottom: ${(props) => props.theme.border};
@@ -28,12 +27,13 @@ type Props = {
   title: string
   price?: number
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  className?: string
 }
 // convert to slot later
 
-export default function ItemCard({ title, price, onClick }: Props) {
+export default function ItemCard({ title, price, onClick, className }: Props) {
   return (
-    <StyledCard onClick={onClick}>
+    <StyledCard className={className} onClick={onClick}>
       <h2>{title}</h2>
       {price ? <span className="price">${price}</span> : ''}
     </StyledCard>
