@@ -1,48 +1,13 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import InvoicelyApi from '../api'
 import Button from './Button'
 import { v4 as uuidv4 } from 'uuid'
 import Icon from './Icon'
+import StyledForm from './StyledForm'
 
 const StyledFormContainer = styled.div`
-  background: ${(props) => props.theme.colors.white};
-  border-radius: ${(props) => props.theme.borderRadius.standard};
-  padding: 3rem;
-  height: 100%;
   width: 100%;
-
-  form,
-  label {
-    display: flex;
-    flex-direction: column;
-  }
-
-  fieldset {
-    border: none;
-    margin-bottom: 2rem;
-  }
-
-  legend {
-    margin-bottom: 1rem;
-    font-weight: 700;
-    font-size: ${(props) => props.theme.fontSizes.bodySmall};
-  }
-
-  input {
-    margin-bottom: 1rem;
-    width: 100%;
-    padding: 0.25rem;
-    background: ${(props) => props.theme.colors.gray1};
-    border: none;
-    border-bottom: ${(props) => props.theme.border};
-    border-radius: ${(props) => props.theme.borderRadius.small};
-    outline-color: ${(props) => props.theme.colors.blue};
-  }
-
-  label:not(:first-of-type) {
-    margin-left: 0.5rem;
-  }
 
   .item {
     display: flex;
@@ -50,14 +15,11 @@ const StyledFormContainer = styled.div`
     position: relative;
   }
 
-  label:first-child {
-    flex: 1;
-  }
-
   .submit-button {
     width: 100%;
     margin-top: 3rem;
     padding: 1rem;
+    font-weight: 600;
   }
 
   .cancel-button {
@@ -90,9 +52,15 @@ type Project = {
   invoice: Invoice
 }
 
-export default function NewProjectForm() {
+type Props = {
+  changeHandler: () => void
+}
+
+export default function NewProjectForm({ changeHandler }: Props) {
   const [title, setTitleValue] = useState('')
-  const [lineItemValues, setLineItemValues] = useState([{ id: '', description: '', amount: '' }])
+  const [lineItemValues, setLineItemValues] = useState([
+    { id: uuidv4(), description: '', amount: '' },
+  ])
   const [projectData, setProjectData] = useState<Project | null>(null)
 
   /** State Handling */
@@ -126,12 +94,20 @@ export default function NewProjectForm() {
     setLineItemValues(newItemValues)
   }
 
+  const clearForm = () => {
+    setTitleValue('')
+    setLineItemValues([{ id: '', description: '', amount: '' }])
+    setProjectData(null)
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     if (isFormValid()) {
       const project = formatProjectData()
-      saveProject(project)
+      await saveProject(project)
+      clearForm()
+      changeHandler()
     }
   }
 
@@ -158,7 +134,7 @@ export default function NewProjectForm() {
 
   return (
     <StyledFormContainer>
-      <form onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <fieldset>
           <legend>PROJECT DETAILS</legend>
           <label>
@@ -213,7 +189,7 @@ export default function NewProjectForm() {
         <Button className="submit-button" type="submit" onClick={(e) => handleSubmit(e)}>
           Submit
         </Button>
-      </form>
+      </StyledForm>
     </StyledFormContainer>
   )
 }

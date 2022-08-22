@@ -7,5 +7,5 @@ const StyledLogo = styled.img`
 `
 
 export default function Logo() {
-  return <StyledLogo src="logo.svg"></StyledLogo>
+  return <StyledLogo src="/logo.svg"></StyledLogo>
 }

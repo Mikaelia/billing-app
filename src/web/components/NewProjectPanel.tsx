@@ -4,6 +4,9 @@ import Icon from './Icon'
 import NewProjectForm from './NewProjectForm'
 
 const StyledPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   width: 100%;
   background: ${(props) => props.theme.colors.gray1};
 
@@ -28,14 +31,18 @@ const StyledPanel = styled.div`
     margin-right: 1rem;
   }
 
-  .form {
+  .form-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
     padding: 0 3rem;
+    overflow-y: scroll;
+    max-height: calc(100vh - 156px - 3rem);
   }
 `
-export default function NewProjectPanel() {
+type Props = {
+  changeHandler: () => void
+}
+export default function NewProjectPanel({ changeHandler }: Props) {
   return (
     <StyledPanel>
       <div className="header">
@@ -44,8 +51,8 @@ export default function NewProjectPanel() {
         </span>
         <h1>Create a new invoice</h1>
       </div>
-      <div className="form">
-        <NewProjectForm></NewProjectForm>
+      <div className="form-container">
+        <NewProjectForm changeHandler={() => changeHandler()}></NewProjectForm>
       </div>
     </StyledPanel>
   )

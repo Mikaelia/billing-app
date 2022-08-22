@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import InvoicelyApi from '../api'
 import { Link } from 'react-router-dom'
 import ItemCard from './ItemCard'
 import styled from 'styled-components'
@@ -8,30 +7,35 @@ const StyledProjectList = styled.div`
   border-top: ${(props) => props.theme.border};
 `
 
-// revisit this --- when to use interface not type
-interface HomepageProject {
+type LineItem = {
+  id: string
+  description: string
+  amount: number
+}
+
+type Invoice = {
+  id: string
+  lineItems: LineItem[]
+}
+
+type Project = {
   id: string
   title: string
+  invoice: Invoice
+}
+
+type Props = {
+  projects: Project[]
 }
 
 /** Homepage list of all invoiced projects that have been created */
-export default function ProjectList() {
-  const [projects, setProjects] = useState<HomepageProject[]>([])
-
-  // Fetch all projects from the API
-  useEffect(() => {
-    async function fetchProjects() {
-      const projects = await InvoicelyApi.getProjects()
-      setProjects(projects)
-    }
-
-    fetchProjects()
-  }, [])
-
+export default function ProjectList({ projects }: Props) {
   return (
     <StyledProjectList>
       {projects.map((project) => (
-        <ItemCard key={project.id} url={`/invoices/${project.id}`} title={project.title}></ItemCard>
+        <Link to={`/invoices/${project.id}`}>
+          <ItemCard key={project.id} title={project.title}></ItemCard>
+        </Link>
       ))}
     </StyledProjectList>
   )

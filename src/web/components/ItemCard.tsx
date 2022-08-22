@@ -2,11 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-const StyledCard = styled(Link)`
+const StyledCard = styled.div`
   border-bottom: ${(props) => props.theme.border};
-  padding: 1rem 3rem;
-  display: block;
+  padding: 1.5rem 3rem;
+  display: flex;
   width: 100%;
+  justify-content: space-between;
 
   :hover {
     background: ${(props) => props.theme.colors.gray1};
@@ -17,17 +18,24 @@ const StyledCard = styled(Link)`
     color: ${(props) => props.theme.colors.black};
     font-weight: 500;
   }
+
+  price {
+    font-weight: bold;
+  }
 `
 
 type Props = {
   title: string
-  url: string
+  price?: number
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
+// convert to slot later
 
-export default function ItemCard({ title, url }: Props) {
+export default function ItemCard({ title, price, onClick }: Props) {
   return (
-    <StyledCard to={url}>
+    <StyledCard onClick={onClick}>
       <h2>{title}</h2>
+      {price ? <span className="price">${price}</span> : ''}
     </StyledCard>
   )
 }
