@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import LineItemList from './LineItemList'
 import Button from './Button'
 
+import type { Project } from '../types'
+
 const StyledInvoicePanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,24 +18,11 @@ const StyledInvoicePanel = styled.div`
     font-size: ${(props) => props.theme.fontSizes.heading1};
     font-weight: 500;
   }
+
+  button {
+    align-self: flex-end;
+  }
 `
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
-
-type Invoice = {
-  id: string
-  lineItems: LineItem[]
-}
-// prob want to convert to TS
-type Project = {
-  id: string
-  title: string
-  invoice: Invoice
-}
 
 type Props = {
   project: Project

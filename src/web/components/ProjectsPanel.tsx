@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 import ProjectList from './ProjectList'
 
+import type { Project } from '../types'
+
 const StyledProjectsPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,23 +17,6 @@ const StyledProjectsPanel = styled.div`
     font-weight: 500;
   }
 `
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
-
-type Invoice = {
-  id: string
-  lineItems: LineItem[]
-}
-
-type Project = {
-  id: string
-  title: string
-  invoice: Invoice
-}
 
 type Props = {
   projects: Project[]

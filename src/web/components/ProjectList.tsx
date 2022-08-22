@@ -1,28 +1,13 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ItemCard from './ItemCard'
 import styled from 'styled-components'
+
+import ItemCard from './ItemCard'
+
+import type { Project } from '../types'
 
 const StyledProjectList = styled.div`
   border-top: ${(props) => props.theme.border};
 `
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
-
-type Invoice = {
-  id: string
-  lineItems: LineItem[]
-}
-
-type Project = {
-  id: string
-  title: string
-  invoice: Invoice
-}
 
 type Props = {
   projects: Project[]

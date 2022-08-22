@@ -1,10 +1,12 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import InvoicelyApi from '../api'
-import Button from './Button'
+import React, { FormEvent, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import styled from 'styled-components'
+
+import Button from './Button'
 import Icon from './Icon'
 import StyledForm from './StyledForm'
+
+import type { Project, LineItemData, LineItem } from '../types'
 
 const StyledFormContainer = styled.div`
   width: 100%;
@@ -29,31 +31,8 @@ const StyledFormContainer = styled.div`
   }
 `
 
-type LineItemData = {
-  id: string
-  description: string
-  amount: string
-}
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
-
-type Invoice = {
-  id: string
-  lineItems: LineItem[]
-}
-
-type Project = {
-  id: string
-  title: string
-  invoice: Invoice
-}
-
 type Props = {
-  changeHandler: () => void
+  changeHandler: (project: Project) => void
 }
 
 export default function NewProjectForm({ changeHandler }: Props) {
@@ -75,11 +54,6 @@ export default function NewProjectForm({ changeHandler }: Props) {
     const newItemValues: LineItemData[] = [...lineItemValues]
     newItemValues[i][name as keyof LineItemData] = value
     setLineItemValues(newItemValues)
-  }
-
-  const saveProject = async (project: Project) => {
-    const data = await InvoicelyApi.createProject(project)
-    setProjectData(data)
   }
 
   /** Form Actions */
@@ -105,9 +79,8 @@ export default function NewProjectForm({ changeHandler }: Props) {
 
     if (isFormValid()) {
       const project = formatProjectData()
-      await saveProject(project)
+      changeHandler(project)
       clearForm()
-      changeHandler()
     }
   }
 

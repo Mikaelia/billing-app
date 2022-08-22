@@ -4,25 +4,11 @@ import { useState, useEffect } from 'react'
 import InvoicePanel from './InvoicePanel'
 import InvoiceItemDetailPanel from './InvoiceItemDetailPanel'
 import CreateLineItemForm from './CreateLineItemForm'
+import EditInfoPanel from './EditInfoPanel'
+
 import InvoicelyApi from '../api'
 
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
-
-type Invoice = {
-  id: string
-  lineItems: LineItem[]
-}
-// prob want to convert to TS
-export type Project = {
-  id: string
-  title: string
-  invoice: Invoice
-  action: 'viewing' | 'creating'
-}
+import type { Project, LineItem } from '../types'
 
 export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
@@ -121,7 +107,7 @@ export default function InvoicePage() {
       ) : action === 'creating' ? (
         <CreateLineItemForm changeHandler={handleNewItem}></CreateLineItemForm>
       ) : (
-        'Select Item to Edit'
+        <EditInfoPanel></EditInfoPanel>
       )}
     </>
   ) : (

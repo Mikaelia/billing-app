@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import StyledForm from './StyledForm'
 
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
+import type { LineItem } from '../types'
 
 type Props = {
   isDisabled?: boolean

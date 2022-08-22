@@ -3,15 +3,11 @@ import styled from 'styled-components'
 
 import ItemCard from './ItemCard'
 
+import type { LineItem } from '../types'
+
 const StyledLineItemList = styled.div`
   border-top: ${(props) => props.theme.border};
 `
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
 
 type Props = {
   lineItems: LineItem[]

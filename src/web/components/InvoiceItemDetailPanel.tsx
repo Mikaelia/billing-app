@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Button from './Button'
 import LineItemForm from './LineItemForm'
+
+import type { LineItem } from '../types'
 
 const StyledPanel = styled.div`
   display: flex;
@@ -30,12 +32,6 @@ const StyledPanel = styled.div`
     max-height: calc(100vh - 156px - 3rem);
   }
 `
-
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
 
 type Props = {
   item: LineItem

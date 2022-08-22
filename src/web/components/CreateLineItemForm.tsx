@@ -4,11 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Button from './Button'
 import LineItemForm from './LineItemForm'
 
-type LineItem = {
-  id: string
-  description: string
-  amount: number
-}
+import type { LineItem } from '../types'
 
 type Props = {
   changeHandler: (item: LineItem) => void

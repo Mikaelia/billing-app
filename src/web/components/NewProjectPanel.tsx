@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Icon from './Icon'
 import NewProjectForm from './NewProjectForm'
 
+import type { Project } from '../types'
+
 const StyledPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,8 +41,9 @@ const StyledPanel = styled.div`
     max-height: calc(100vh - 156px - 3rem);
   }
 `
+
 type Props = {
-  changeHandler: () => void
+  changeHandler: (project: Project) => void
 }
 export default function NewProjectPanel({ changeHandler }: Props) {
   return (
@@ -52,7 +55,7 @@ export default function NewProjectPanel({ changeHandler }: Props) {
         <h1>Create a new invoice</h1>
       </div>
       <div className="form-container">
-        <NewProjectForm changeHandler={() => changeHandler()}></NewProjectForm>
+        <NewProjectForm changeHandler={changeHandler}></NewProjectForm>
       </div>
     </StyledPanel>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Link, useLocation, matchPath } from 'react-router-dom'
+import styled from 'styled-components'
+
 import Icon from './Icon'
 
 const StyledSidebar = styled.div`
