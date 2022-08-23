@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-  background: ${(props) => props.theme.colors.blue};
+  display: inline-block;
+  background: ${(props) => props.theme.colors.brand};
   padding: 0.5rem 1rem;
   border: 3px solid transparent;
   border-radius: ${(props) => props.theme.borderRadius.standard};
@@ -9,17 +10,16 @@ const StyledButton = styled.button`
   font-weight: 500;
   cursor: pointer;
 
-  :hover {
-    background: #011db4;
+  &.brand:hover {
+    background: ${(props) => props.theme.colors.brandDark};
   }
 
   &.text-button {
     background: transparent;
-    color: ${(props) => props.theme.colors.blue};
+    color: ${(props) => props.theme.colors.brand};
 
     :hover {
       background: ${(props) => props.theme.colors.gray3};
-      border-color: transparent;
     }
   }
 
@@ -27,16 +27,23 @@ const StyledButton = styled.button`
     background: transparent;
     border-radius: 50%;
     flex-shrink: 0;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     width: 2rem;
     height: 2rem;
 
-    :hover {
-      background: ${(props) => props.theme.colors.gray3};
-      border-color: transparent;
+    &.destructive:hover {
+      background: ${(props) => props.theme.colors.destructiveLight};
+    }
+
+    &.brand:hover {
+      background: ${(props) => props.theme.colors.brandLight};
+    }
+
+    &.success:hover {
+      background: ${(props) => props.theme.colors.successLight};
     }
   }
 `
@@ -47,13 +54,23 @@ type Props = {
   type?: 'submit' | 'reset' | 'button'
   format?: 'text' | 'icon' | null
   className?: string
+  variant?: 'destructive' | 'success' | 'brand'
 }
 
-export default function Button({ children, onClick, type, format, className = '' }: Props) {
+export default function Button({
+  children,
+  onClick,
+  type,
+  format,
+  variant = 'brand',
+  className = '',
+}: Props) {
   const buttonStyleClass = () => {
-    if (format === 'text') return 'text-button'
-    if (format === 'icon') return 'icon-button'
-    return ''
+    let className = ''
+    if (format === 'text') className += ' text-button'
+    if (format === 'icon') className += ' icon-button'
+    className += ` ${variant}`
+    return className
   }
 
   return (

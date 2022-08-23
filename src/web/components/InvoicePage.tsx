@@ -2,9 +2,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 import InvoicePanel from './InvoicePanel'
-import InvoiceItemDetailPanel from './InvoiceItemDetailPanel'
-import CreateLineItemForm from './CreateLineItemForm'
-import EditInfoPanel from './EditInfoPanel'
+import NewLineItemForm from './NewLineItemForm'
+import EditLineItemForm from './EditLineItemForm'
+import StyledDetailPanel from './StyledDetailPanel'
 
 import InvoicelyApi from '../api'
 
@@ -14,7 +14,7 @@ export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
   const [currentLineItem, setCurrentLineItem] = useState<LineItem | undefined>(undefined)
   // replace with action
-  const [action, setAction] = useState('viewing')
+  const [action, setAction] = useState<'viewing' | 'creating'>('viewing')
   const navigate = useNavigate()
 
   const { id: projectId, itemId } = useParams()
@@ -31,7 +31,7 @@ export default function InvoicePage() {
   useEffect(() => {
     if (project && action !== 'creating') {
       const firstItem = project.invoice.lineItems[0]
-      navigate(`/invoices/${project!.id}/item/${firstItem.id}`)
+      navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
     }
   }, [project])
 
@@ -57,7 +57,7 @@ export default function InvoicePage() {
 
   const handleAdd = () => {
     // might want to add url for editing
-    navigate(`/invoices/${project!.id}`)
+    navigate(`/invoice/${project!.id}`)
     setAction('creating')
   }
 
@@ -97,15 +97,21 @@ export default function InvoicePage() {
     <>
       <InvoicePanel handleAdd={handleAdd} project={project}></InvoicePanel>
       {currentLineItem ? (
-        <InvoiceItemDetailPanel
-          editInvoiceItem={editInvoiceItem}
-          deleteInvoiceItem={deleteInvoiceItem}
-          item={currentLineItem}
-        ></InvoiceItemDetailPanel>
+        <StyledDetailPanel title={currentLineItem.description}>
+          <EditLineItemForm
+            editInvoiceItem={editInvoiceItem}
+            deleteInvoiceItem={deleteInvoiceItem}
+            createInvoiceItem={handleNewItem}
+            item={currentLineItem}
+            action={action}
+          ></EditLineItemForm>
+        </StyledDetailPanel>
       ) : action === 'creating' ? (
-        <CreateLineItemForm changeHandler={handleNewItem}></CreateLineItemForm>
+        <StyledDetailPanel title="Add item">
+          <NewLineItemForm changeHandler={handleNewItem}></NewLineItemForm>
+        </StyledDetailPanel>
       ) : (
-        <EditInfoPanel></EditInfoPanel>
+        <span>There are no invoice Items</span>
       )}
     </>
   ) : (

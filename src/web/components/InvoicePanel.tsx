@@ -14,14 +14,30 @@ const StyledInvoicePanel = styled.div`
   min-width: 50%;
   max-width: 600px;
 
+  .header {
+    padding: 2rem 3rem;
+    padding-bottom: 5rem;
+    position: relative;
+  }
+
   h1 {
-    padding: 3rem;
     font-size: ${(props) => props.theme.fontSizes.heading1};
     font-weight: 500;
   }
 
+  p {
+    font-size: ${(props) => props.theme.fontSizes.bodyLarge};
+    margin-top: 1rem;
+  }
+
   button {
-    align-self: flex-end;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  button span {
+    margin-right: 5px;
   }
 `
 
@@ -40,8 +56,13 @@ export default function InvoicePanel({ project, handleAdd }: Props) {
 
   return projectData ? (
     <StyledInvoicePanel>
-      <h1>{projectData.title}</h1>
-      <Button onClick={handleAdd}>Add New</Button>
+      <div className="header">
+        <h1>Invoice</h1>
+        <p>{projectData.title}</p>
+        <Button onClick={handleAdd}>
+          <span>+</span> Add Expense
+        </Button>
+      </div>
       <LineItemList activeItemId={itemId} lineItems={projectData.invoice.lineItems}></LineItemList>
     </StyledInvoicePanel>
   ) : (

@@ -28,7 +28,7 @@ export default function LineItemList({ lineItems, activeItemId }: Props) {
   return (
     <StyledLineItemList>
       {lineItems.map((item) => (
-        <Link key={item.id} to={`/invoices/${id}/item/${item.id}`}>
+        <Link key={item.id} to={`/invoice/${id}/item/${item.id}`}>
           <ItemCard
             className={isActive(item.id) ? 'active' : ''}
             key={item.id}

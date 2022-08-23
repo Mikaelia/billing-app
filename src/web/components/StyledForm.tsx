@@ -4,9 +4,10 @@ import styled from 'styled-components'
 const StyledForm = styled.form`
   background: ${(props) => props.theme.colors.white};
   border-radius: ${(props) => props.theme.borderRadius.standard};
+  border-top: 4px solid ${(props) => props.theme.colors.gray3};
   padding: 3rem;
-  height: 100%;
   width: 100%;
+  position: relative;
 
   form,
   label {
@@ -16,13 +17,18 @@ const StyledForm = styled.form`
 
   fieldset {
     border: none;
+  }
+
+  fieldset:not(:last-of-type) {
     margin-bottom: 2rem;
   }
 
   legend {
     margin-bottom: 1rem;
     font-weight: 700;
-    font-size: ${(props) => props.theme.fontSizes.bodySmall};
+    font-size: ${(props) => props.theme.fontSizes.body};
+    text-transform: uppercase;
+    margin-bottom: 2rem;
   }
 
   input {
@@ -33,7 +39,7 @@ const StyledForm = styled.form`
     border: none;
     border-bottom: ${(props) => props.theme.border};
     border-radius: ${(props) => props.theme.borderRadius.small};
-    outline-color: ${(props) => props.theme.colors.blue};
+    outline-color: ${(props) => props.theme.colors.brand};
   }
 
   label {
@@ -42,10 +48,6 @@ const StyledForm = styled.form`
 
   label:first-child {
     flex: 1;
-  }
-
-  label:not(:first-of-type) {
-    margin-left: 0.5rem;
   }
 `
 type Props = {

@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledCard = styled.div`
-  border-bottom: ${(props) => props.theme.border};
-  padding: 1.5rem 3rem;
   display: flex;
-  width: 100%;
   justify-content: space-between;
+  width: 100%;
+  padding: 1.5rem 3rem;
+  border-bottom: ${(props) => props.theme.border};
 
   :hover {
     background: ${(props) => props.theme.colors.gray1};
@@ -14,12 +14,12 @@ const StyledCard = styled.div`
 
   h2 {
     font-size: ${(props) => props.theme.fontSizes.heading2};
-    color: ${(props) => props.theme.colors.black};
     font-weight: 500;
+    color: ${(props) => props.theme.colors.black};
   }
 
-  price {
-    font-weight: bold;
+  .price {
+    color: ${(props) => props.theme.colors.brand};
   }
 `
 
@@ -29,8 +29,8 @@ type Props = {
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   className?: string
 }
-// convert to slot later
 
+// Card would be more generic (i.e. not have 'price' specific functionality and styles) for prod use  - slots/children prefered with styles here defining layout
 export default function ItemCard({ title, price, onClick, className }: Props) {
   return (
     <StyledCard className={className} onClick={onClick}>

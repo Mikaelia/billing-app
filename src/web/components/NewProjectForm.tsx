@@ -17,6 +17,10 @@ const StyledFormContainer = styled.div`
     position: relative;
   }
 
+  .amount-input {
+    margin-left: 1rem;
+  }
+
   .submit-button {
     width: 100%;
     margin-top: 3rem;
@@ -133,7 +137,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
                   onChange={(e) => handleLineItemChange(index, e)}
                 />
               </label>
-              <label>
+              <label className="amount-input">
                 Amount
                 <input
                   type="number"
@@ -148,6 +152,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
                 <Button
                   className="cancel-button"
                   format="icon"
+                  variant="destructive"
                   onClick={() => removeFormFields(index)}
                 >
                   <Icon url="circle-cross.svg"></Icon>

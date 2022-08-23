@@ -20,8 +20,8 @@ function App() {
           </Sidebar>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/invoices/:id" element={<InvoicePage />} />
-            <Route path="/invoices/:id/item/:itemId" element={<InvoicePage />} />
+            <Route path="/invoice/:id" element={<InvoicePage />} />
+            <Route path="/invoice/:id/item/:itemId" element={<InvoicePage />} />
           </Routes>
         </StyledLayout>
       </Router>

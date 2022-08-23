@@ -10,7 +10,7 @@ type Props = {
   changeHandler: (item: LineItem) => void
 }
 
-export default function NewProjectForm({ changeHandler }: Props) {
+export default function NewLineItemForm({ changeHandler }: Props) {
   const [item, setItem] = useState({ id: uuidv4(), description: '', amount: 0 })
 
   const clearForm = () => {
@@ -33,7 +33,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
   }
 
   return (
-    <LineItemForm item={item} handleChange={handleLineItemChange}>
+    <LineItemForm item={item} handleChange={handleLineItemChange} title="New Item: ">
       <Button className="submit-button" type="submit" onClick={(e) => handleSubmit(e)}>
         Submit
       </Button>

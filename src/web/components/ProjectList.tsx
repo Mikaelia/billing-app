@@ -18,7 +18,7 @@ export default function ProjectList({ projects }: Props) {
   return (
     <StyledProjectList>
       {projects.map((project) => (
-        <Link to={`/invoices/${project.id}`}>
+        <Link to={`/invoice/${project.id}`}>
           <ItemCard key={project.id} title={project.title}></ItemCard>
         </Link>
       ))}
