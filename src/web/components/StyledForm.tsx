@@ -54,6 +54,7 @@ type Props = {
   onSubmit?: (e: FormEvent) => void
   children: React.ReactNode
 }
+/** Base styles for app forms */
 const Form = ({ onSubmit, children }: Props) => {
   return <StyledForm onSubmit={onSubmit}>{children}</StyledForm>
 }

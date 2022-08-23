@@ -10,6 +10,7 @@ type Props = {
   url: string
   size?: string
 }
+// Ideally, icons would be rendered directly by component via some kind of name mapping
 export default function Icon({ url, size = '1rem' }: Props) {
   return <StyledIcon size={size} src={url}></StyledIcon>
 }

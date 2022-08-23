@@ -10,7 +10,6 @@ const StyledContainer = styled.div`
 
   .heading {
     padding: 2rem 3rem;
-
     background: ${(props) => props.theme.colors.white};
     border-bottom: ${(props) => props.theme.border};
   }

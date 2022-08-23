@@ -3,12 +3,12 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
   display: inline-block;
   background: ${(props) => props.theme.colors.brand};
-  padding: 0.5rem 1rem;
-  border: 3px solid transparent;
-  border-radius: ${(props) => props.theme.borderRadius.standard};
   color: ${(props) => props.theme.colors.white};
   font-weight: 500;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  border-radius: ${(props) => props.theme.borderRadius.standard};
+  border: 3px solid transparent;
 
   &.brand:hover {
     background: ${(props) => props.theme.colors.brandDark};
@@ -24,15 +24,15 @@ const StyledButton = styled.button`
   }
 
   &.icon-button {
-    background: transparent;
-    border-radius: 50%;
-    flex-shrink: 0;
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    padding: 0;
+    flex-shrink: 0;
+    align-items: center;
     width: 2rem;
     height: 2rem;
+    padding: 0;
+    background: transparent;
+    border-radius: 50%;
 
     &.destructive:hover {
       background: ${(props) => props.theme.colors.destructiveLight};
@@ -51,12 +51,13 @@ const StyledButton = styled.button`
 type Props = {
   children: React.ReactNode
   onClick: React.MouseEventHandler<HTMLButtonElement>
-  type?: 'submit' | 'reset' | 'button'
+  type?: 'submit' | 'button' | 'reset'
   format?: 'text' | 'icon' | null
   className?: string
   variant?: 'destructive' | 'success' | 'brand'
 }
 
+/** Button supports icon and text types (formats), as well as three color themes (variants). For now, only icon buttons support all three variants */
 export default function Button({
   children,
   onClick,
@@ -65,7 +66,9 @@ export default function Button({
   variant = 'brand',
   className = '',
 }: Props) {
+  /** Sets css class based on format and variant */
   const buttonStyleClass = () => {
+    // Ok for now because options are so limited - in future would extract to enum
     let className = ''
     if (format === 'text') className += ' text-button'
     if (format === 'icon') className += ' icon-button'
@@ -73,6 +76,7 @@ export default function Button({
     return className
   }
 
+  // Ideally icons would be built in to icon buttons, and would be able to adjust color dynamically
   return (
     <StyledButton className={`${buttonStyleClass()} ${className}`} type={type} onClick={onClick}>
       {children}

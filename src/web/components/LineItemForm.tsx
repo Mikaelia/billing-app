@@ -11,20 +11,26 @@ type Props = {
   handleChange: (item: LineItem) => void
   children?: React.ReactNode
 }
-
 export default function LineItemForm({ isDisabled, item, children, handleChange, title }: Props) {
   const [description, setDescription] = useState('')
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState<number>(0)
+  const [displayAmount, setDisplayAmount] = useState<number>(0)
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setDescription(item.description)
     setAmount(item.amount)
+    // convert cents to dollars to display in input
+    setDisplayAmount(item.amount / 100)
   }, [item])
 
+  /** Focus first input element if form is not disabled */
   useEffect(() => {
     !isDisabled && inputRef.current?.focus()
   }, [isDisabled])
+
+  // Could combine these handlers into one 'lineItem' state to reduce duplication. Separated for readability
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: description } = e.target
@@ -35,10 +41,13 @@ export default function LineItemForm({ isDisabled, item, children, handleChange,
   }
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const amount = parseInt(e.target.value)
+    const { value } = e.target
+    const displayAmount = parseFloat(value)
+    // convert dollar value to cents for backend data
+    const amount = parseFloat(value) * 100
     const lineItem = { ...item, amount, description }
 
-    setAmount(amount)
+    setDisplayAmount(displayAmount)
     handleChange(lineItem)
   }
 
@@ -64,7 +73,7 @@ export default function LineItemForm({ isDisabled, item, children, handleChange,
             name="amount"
             min="0.00"
             step="0.01"
-            value={amount}
+            value={displayAmount || ''}
             disabled={isDisabled}
             onChange={handleAmountChange}
           />

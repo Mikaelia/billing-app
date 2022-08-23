@@ -17,10 +17,10 @@ type Props = {
   lineItems: LineItem[]
   activeItemId?: string
 }
-
 export default function LineItemList({ lineItems, activeItemId }: Props) {
   const { id } = useParams()
 
+  // Enables highlighting of individual items
   const isActive = (id: string): boolean => {
     return id === activeItemId
   }

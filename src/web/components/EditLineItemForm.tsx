@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import Button from './Button'
 import LineItemForm from './LineItemForm'
+import Button from './Button'
+import Icon from './Icon'
 
 import type { LineItem } from '../types'
-import Icon from './Icon'
 
 const StyledButtonContainer = styled.div`
   justify-content: center;
+
   .button-container {
     position: absolute;
     top: 2.75rem;
@@ -22,35 +23,47 @@ const StyledButtonContainer = styled.div`
 
 type Props = {
   item: LineItem
-  editInvoiceItem: (e: React.FormEvent, item: LineItem) => void
-  deleteInvoiceItem: (e: React.MouseEvent<HTMLButtonElement>, itemId: string) => void
-  createInvoiceItem: (item: LineItem) => void
-  action: 'viewing' | 'creating'
+  handleEdit: (item: LineItem) => void
+  handleDelete: (itemId: string) => void
 }
-
-export default function EditLineItemForm({ item, editInvoiceItem, deleteInvoiceItem }: Props) {
+export default function EditLineItemForm({ item, handleEdit, handleDelete }: Props) {
   const [isEditing, setIsEditing] = useState(false)
-  const [editingItem, setEditingItem] = useState(item)
+  const [editedItem, setEditedItem] = useState(item)
 
+  /** Gets and saves edited item value from child */
   const handleChange = (item: LineItem) => {
-    setEditingItem(item)
-  }
-
-  const clearForm = () => {
-    setEditingItem({ id: '', amount: 0, description: '' })
+    setEditedItem(item)
   }
 
   /** Button Actions */
 
+  /** Changes form status to 'editing' */
   const toggleEditing = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setIsEditing(true)
   }
 
-  const handleSave = (e: React.FormEvent) => {
-    editInvoiceItem(e, editingItem)
-    clearForm()
-    setIsEditing(false)
+  const isFormValid = (): boolean => {
+    return !!(editedItem.amount && editedItem.description)
+  }
+
+  /** Passes edited item value to parent, while resetting form data */
+  const updateItem = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (isFormValid()) {
+      handleEdit(editedItem)
+      clearForm()
+      setIsEditing(false)
+    }
+  }
+
+  const deleteItem = (e: React.FormEvent) => {
+    e.preventDefault()
+    handleDelete(item.id)
+  }
+
+  const clearForm = () => {
+    setEditedItem({ id: '', amount: 0, description: '' })
   }
 
   return (
@@ -66,11 +79,7 @@ export default function EditLineItemForm({ item, editInvoiceItem, deleteInvoiceI
               >
                 <Icon url={'/edit.svg'}></Icon>
               </Button>
-              <Button
-                variant="destructive"
-                format="icon"
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) => deleteInvoiceItem(e, item.id)}
-              >
+              <Button variant="destructive" format="icon" onClick={deleteItem}>
                 <Icon url="/delete.svg"></Icon>
               </Button>
             </>
@@ -80,7 +89,7 @@ export default function EditLineItemForm({ item, editInvoiceItem, deleteInvoiceI
               type="submit"
               variant="success"
               format="icon"
-              onClick={(e: React.FormEvent) => handleSave(e)}
+              onClick={updateItem}
             >
               <Icon url="/tick.svg"></Icon>
             </Button>

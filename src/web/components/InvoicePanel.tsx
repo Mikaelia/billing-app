@@ -30,22 +30,22 @@ const StyledInvoicePanel = styled.div`
     margin-top: 1rem;
   }
 
-  button {
+  .cta-button {
     position: absolute;
     right: 1rem;
     bottom: 1rem;
-  }
 
-  button span {
-    margin-right: 5px;
+    span {
+      margin-right: 5px;
+    }
   }
 `
 
 type Props = {
   project: Project
-  handleAdd: (e: React.MouseEvent<HTMLButtonElement>) => void
+  handleCtaClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
-export default function InvoicePanel({ project, handleAdd }: Props) {
+export default function InvoicePanel({ project, handleCtaClick }: Props) {
   const [projectData, setProjectData] = useState<Project | null>(null)
 
   const { itemId } = useParams()
@@ -59,7 +59,7 @@ export default function InvoicePanel({ project, handleAdd }: Props) {
       <div className="header">
         <h1>Invoice</h1>
         <p>{projectData.title}</p>
-        <Button onClick={handleAdd}>
+        <Button className="cta-button" onClick={handleCtaClick}>
           <span>+</span> Add Expense
         </Button>
       </div>

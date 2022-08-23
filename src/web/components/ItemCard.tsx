@@ -12,13 +12,13 @@ const StyledCard = styled.div`
     background: ${(props) => props.theme.colors.gray1};
   }
 
-  h2 {
+  .item-title {
     font-size: ${(props) => props.theme.fontSizes.heading2};
     font-weight: 500;
     color: ${(props) => props.theme.colors.black};
   }
 
-  .price {
+  .item-price {
     color: ${(props) => props.theme.colors.brand};
   }
 `
@@ -29,13 +29,22 @@ type Props = {
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   className?: string
 }
-
 // Card would be more generic (i.e. not have 'price' specific functionality and styles) for prod use  - slots/children prefered with styles here defining layout
 export default function ItemCard({ title, price, onClick, className }: Props) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+
+  const formatPrice = (cents: number) => {
+    // convert to dollars
+    return formatter.format(cents / 100)
+  }
+
   return (
     <StyledCard className={className} onClick={onClick}>
-      <h2>{title}</h2>
-      {price ? <span className="price">${price}</span> : ''}
+      <h2 className="item-title">{title}</h2>
+      {price ? <span className="item-price">{formatPrice(price)}</span> : ''}
     </StyledCard>
   )
 }

@@ -1,22 +1,7 @@
 import axios from 'axios'
+import {Project} from './types'
 
 const BASE_URL = 'http://localhost:8080'
-
-type LineItem = {
-  id: string,
-  description: string,
-  amount: number
-}
-
-type Invoice = {
-  id: string,
-  lineItems: LineItem[]
-}
-type Project = {
-  id: string,
-  title: string,
-  invoice: Invoice
-}
 
 /** The API for the app, for querying, creating and updating projects and invoices */
 class InvoicelyApi {

@@ -9,14 +9,14 @@ import StyledDetailPanel from './StyledDetailPanel'
 import InvoicelyApi from '../api'
 
 import type { Project, LineItem } from '../types'
+export type Action = 'viewing' | 'editing' | undefined
 
 export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
   const [currentLineItem, setCurrentLineItem] = useState<LineItem | undefined>(undefined)
-  // replace with action
-  const [action, setAction] = useState<'viewing' | 'creating'>('viewing')
-  const navigate = useNavigate()
+  const [action, setAction] = useState<Action>()
 
+  const navigate = useNavigate()
   const { id: projectId, itemId } = useParams()
 
   /** Fetches project based on id from url param */
@@ -28,14 +28,7 @@ export default function InvoicePage() {
     fetchProjects()
   }, [projectId])
 
-  useEffect(() => {
-    if (project && action !== 'creating') {
-      const firstItem = project.invoice.lineItems[0]
-      navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
-    }
-  }, [project])
-
-  /** If there's an itemId in the url params, stores the current item */
+  /** If there is an itemId in the url params, sets the current item */
   useEffect(() => {
     if (project) {
       const currentLineItem = project.invoice.lineItems.filter((v) => v.id === itemId)[0]
@@ -43,10 +36,25 @@ export default function InvoicePage() {
     }
   }, [project, itemId])
 
-  const deleteInvoiceItem = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
-    e.preventDefault()
+  /** Opens detail panel of first item in list if page is not in an editing state, and an item is not already being viewed */
+  useEffect(() => {
+    if (project && !action && !itemId) {
+      const firstItem = project.invoice.lineItems[0]
+      navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
+    }
+  }, [project])
+
+  /** Sets page action to editing and navigates away from any opened items */
+  const toggleEditingState = () => {
+    // might want to add url for editing?
+    navigate(`/invoice/${project!.id}`)
+    setAction('editing')
+  }
+
+  /** Api Actions */
+
+  const deleteLineItem = async (id: string) => {
     if (project) {
-      // needed?
       const newProject: Project = { ...project }
       newProject.invoice.lineItems = newProject.invoice.lineItems.filter((v) => v.id !== id)
 
@@ -55,14 +63,7 @@ export default function InvoicePage() {
     }
   }
 
-  const handleAdd = () => {
-    // might want to add url for editing
-    navigate(`/invoice/${project!.id}`)
-    setAction('creating')
-  }
-
-  /** FOR FORM TO HANDLE */
-  const handleNewItem = async (item: LineItem) => {
+  const createLineItem = async (item: LineItem) => {
     if (project) {
       const newProject: Project = { ...project }
       newProject!.invoice.lineItems.push(item)
@@ -72,9 +73,7 @@ export default function InvoicePage() {
     }
   }
 
-  const editInvoiceItem = async (e: React.FormEvent, item: LineItem) => {
-    e.preventDefault()
-
+  const editInvoiceItem = async (item: LineItem) => {
     if (project) {
       const lineItems = project!.invoice.lineItems.map((v) => {
         if (v.id === item.id) {
@@ -92,23 +91,20 @@ export default function InvoicePage() {
     }
   }
 
-  // create an editing and adding state
   return project ? (
     <>
-      <InvoicePanel handleAdd={handleAdd} project={project}></InvoicePanel>
+      <InvoicePanel handleCtaClick={toggleEditingState} project={project}></InvoicePanel>
       {currentLineItem ? (
         <StyledDetailPanel title={currentLineItem.description}>
           <EditLineItemForm
-            editInvoiceItem={editInvoiceItem}
-            deleteInvoiceItem={deleteInvoiceItem}
-            createInvoiceItem={handleNewItem}
+            handleEdit={editInvoiceItem}
+            handleDelete={deleteLineItem}
             item={currentLineItem}
-            action={action}
           ></EditLineItemForm>
         </StyledDetailPanel>
-      ) : action === 'creating' ? (
+      ) : action === 'editing' ? (
         <StyledDetailPanel title="Add item">
-          <NewLineItemForm changeHandler={handleNewItem}></NewLineItemForm>
+          <NewLineItemForm handleNew={createLineItem}></NewLineItemForm>
         </StyledDetailPanel>
       ) : (
         <span>There are no invoice Items</span>

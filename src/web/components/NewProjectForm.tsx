@@ -11,7 +11,7 @@ import type { Project, LineItemData, LineItem } from '../types'
 const StyledFormContainer = styled.div`
   width: 100%;
 
-  .item {
+  .input-grouping {
     display: flex;
     width: 100%;
     position: relative;
@@ -103,7 +103,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
     })
   }
 
-  /** Validations -- (much more robust in prod) */
+  /** Validations -- (obviously much more robust in prod) */
 
   const isFormValid = (): boolean => {
     return !!(title && lineItemValues.length)
@@ -127,7 +127,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
         <fieldset>
           <legend>EXPENSES</legend>
           {lineItemValues.map((element, index) => (
-            <div className="item" key={index}>
+            <div className="input-grouping" key={index}>
               <label>
                 Description
                 <input

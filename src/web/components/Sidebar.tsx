@@ -7,9 +7,9 @@ import Icon from './Icon'
 const StyledSidebar = styled.div`
   background: ${(props) => props.theme.colors.gray1};
   height: 100vh;
-  padding: 2rem 1rem;
   width: 270px;
   min-width: 270px;
+  padding: 2rem 1rem;
   border: ${(props) => props.theme.border};
 
   h2 {
@@ -49,14 +49,10 @@ type Props = {
   children: React.ReactNode
 }
 
-//Look into named slot
-
 export default function Sidebar({ children }: Props) {
   const location = useLocation()
-  // console.log(location.pathname)
-  // need to make reactive
 
-  /// might not work because exact match
+  // In reality might not work because exact match
   const isLinkActive = (path: string) => {
     return !!matchPath(location.pathname, path)
   }

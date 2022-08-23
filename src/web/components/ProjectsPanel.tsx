@@ -23,7 +23,6 @@ type Props = {
 }
 
 export default function ProjectsPanel({ projects }: Props) {
-  // console.log(projects)
   return (
     <StyledProjectsPanel>
       <h1>Billing</h1>

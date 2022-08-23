@@ -7,25 +7,26 @@ import LineItemForm from './LineItemForm'
 import type { LineItem } from '../types'
 
 type Props = {
-  changeHandler: (item: LineItem) => void
+  handleNew: (item: LineItem) => void
 }
 
-export default function NewLineItemForm({ changeHandler }: Props) {
+export default function NewLineItemForm({ handleNew }: Props) {
   const [item, setItem] = useState({ id: uuidv4(), description: '', amount: 0 })
 
   const clearForm = () => {
     setItem({ id: uuidv4(), description: '', amount: 0 })
   }
 
-  /** Still needs basic empty form validation and non-zero amount value */
-  // const isFormValid = (): boolean => {
-  //   return !!(amount && description)
-  // }
+  const isFormValid = (): boolean => {
+    return !!(item.amount && item.description)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    changeHandler(item)
-    clearForm()
+    if (isFormValid()) {
+      handleNew(item)
+      clearForm()
+    }
   }
 
   const handleLineItemChange = (item: LineItem) => {

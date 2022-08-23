@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import Icon from './Icon'
 import NewProjectForm from './NewProjectForm'
 
@@ -8,21 +9,19 @@ import type { Project } from '../types'
 const StyledPanel = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
   background: ${(props) => props.theme.colors.gray1};
 
-  h1 {
-    font-size: ${(props) => props.theme.fontSizes.heading1};
-    font-weight: 500;
-    // background: ${(props) => props.theme.colors.white};
-    // border-bottom: ${(props) => props.theme.border};
-  }
-
   .header {
-    padding: 3rem;
     display: flex;
     align-items: center;
+    padding: 3rem;
+
+    h1 {
+      font-size: ${(props) => props.theme.fontSizes.heading1};
+      font-weight: 500;
+    }
   }
 
   .icon {
@@ -36,9 +35,9 @@ const StyledPanel = styled.div`
   .form-container {
     display: flex;
     align-items: flex-start;
+    max-height: calc(100vh - 156px - 3rem);
     padding: 0 3rem;
     overflow-y: scroll;
-    max-height: calc(100vh - 156px - 3rem);
   }
 `
 

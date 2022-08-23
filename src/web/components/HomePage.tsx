@@ -24,6 +24,7 @@ function HomePage() {
     fetchProjects()
   }, [newProject])
 
+  /** Updates project once handler is called from child */
   const handleProjectsUpdate = async (project: Project) => {
     const newProject = await InvoicelyApi.createProject(project)
     setNewProject(newProject)
