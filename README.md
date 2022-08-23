@@ -1,37 +1,62 @@
-Welcome to Siteline's take-home technical challenge! To get started, follow these steps:
+# Siteline take-home technical challenge!
 
-1. Make sure you have NodeJS, npm, and yarn installed on your local machine.
-2. Run `yarn install` from `src/web` and `web/api`.
-3. Run `yarn start` from the root directory and the frontend should open at `localhost:3000`.
-4. Open `localhost:3000/readme`.
+## High Level Project Structure:
 
-This project contains a frontend and backend, with data stored in a JSON file.
+- _App_
 
-- `src/web` contains all frontend files, with UI classes under the `components` direction and CSS in `style`. The class `api.ts` should contain
-  client-side functions for interacting with the backend API.
-- `src/api` contains all backend classes. API endpoints are defined in `app.ts`, functions for managing invoice and project data are in `util.ts`,
-  and generic utility functions for interacting with the JSON data file are in `db/db.ts`.
+  - Theme
+  - Sidebar
 
-To run prettier, run `yarn prettier`.
-To run eslint, run `yarn eslint`.
-To run tests, run `yarn test --watchAll=false`.
+- _HomePage_
 
----
+  - ProjectsPanel
+    - ProjectList
+      - ItemCard
+  - NewProjectPanel
+    - NewProjectForm
+      - StyledForm
 
-Done differently. Used plain css with custom props for theming. Cleaner.
+- _InvoicePage_
+  - InvoicePanel
+    - LineItemList
+      - ItemCard
+  - StyledDetailPanel (wraps EditLineItemForm)
+  - EditLineItemForm
+    _ LineItemForm
+    _ StyledForm
+  - StyledDetailPanel (wraps NewLineItemForm)
+  - NewLineItemForm
+    _ LineItemForm
+    _ StyledForm
 
-Set defaults for h1 tags etc.
+## Roadmap
 
-Caching api calls
+I can work on this until I'm dead I think. Here are a few features not yet implemented and edge case top of mind that have not been handled.
+If you'd like to see solutions to any of these issues, please let me know:
 
-Obviously a lot of the components are OOTB. Real ones would be much more robust, tested, acessible, and extensible
+- Add overflow on list panels so that long lists can scroll and not break the layout
+- Adding loading pages, loading indicators, success indicators (toasts etc.) error states
+- Empty states for lists
+- No option to delete projects or edit them (their name)
+- Responsiveness in general
+- Testing in general
+- Accessibility in general - labels, descriptive text, hover text, html hierarchy etc.
+- Optimizing icons / images
+- Further extraction of theming variables (like spacing)
+- Caching? Memoization? Look into performance improvements, essentially
+- Forms need a ton of validation
+- 404 page would be nice
+- Url redirecting might not be best practice. Would have to investigate
+- Header bar with profile information etc
+- Filtering/ searching / sorting of invoices and projects
 
-when to use type vs interface
+### Done differently?
 
-creating project -- why empty one with ids etc. Then I have to overwrite?
+- Probably stuck to plain css and custom props for theming :) I'm not sure how I feel about "Styled-" components. I think it's an interesting idea to be able to create your own style components that you can import and wrap others to apply generic css, but also can see it getting out of hand.
+- The way that I broke down the forms into separate is not as intuitive as I'd like, and I believe can be improved. I wanted to extract shared features and styles to reduce duplication, but that comes with the cost of some added complexity.
 
-accessibilty will be an issue
+## Sources
 
-better way ? equivalent of emitting data
-
-Could use a 404 page
+- Icons: https://robbiepearce.com/softies/
+- Design Inspiration: https://dribbble.com/shots/18334433-Homeowner-Invoice
+- CSS Reset: https://www.joshwcomeau.com/css/custom-css-reset/
