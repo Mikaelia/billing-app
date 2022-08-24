@@ -38,7 +38,7 @@ const StyledFormContainer = styled.div`
 type Props = {
   changeHandler: (project: Project) => void
 }
-
+/** Form for creating a new project */
 export default function NewProjectForm({ changeHandler }: Props) {
   const [title, setTitleValue] = useState('')
   const [lineItemValues, setLineItemValues] = useState([

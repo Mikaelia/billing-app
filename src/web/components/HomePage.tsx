@@ -11,7 +11,7 @@ const StyledHomePage = styled.div`
   display: flex;
   width: 100%;
 `
-
+/** Homepage - handles project api calls */
 function HomePage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [newProject, setNewProject] = useState(null)

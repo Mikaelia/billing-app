@@ -41,6 +41,7 @@ type Props = {
   subtitle?: string
   children: React.ReactNode
 }
+/** Shared base styles and elements for panels containing forms that overflow */
 export default function StyledDetailPanel({ title, subtitle, children }: Props) {
   return (
     <StyledContainer>

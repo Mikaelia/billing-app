@@ -26,6 +26,7 @@ type Props = {
   handleEdit: (item: LineItem) => void
   handleDelete: (itemId: string) => void
 }
+/** Form for editing line items */
 export default function EditLineItemForm({ item, handleEdit, handleDelete }: Props) {
   const [isEditing, setIsEditing] = useState(false)
   const [editedItem, setEditedItem] = useState(item)

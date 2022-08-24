@@ -20,7 +20,7 @@ const StyledSpinner = styled.div`
   height: 100vh;
   width: 100vw;
 `
-
+/** Invoice page - handles page state and api calls relating to updates in line items */
 export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
   const [currentLineItem, setCurrentLineItem] = useState<LineItem | undefined>(undefined)
@@ -56,7 +56,7 @@ export default function InvoicePage() {
 
   /** Sets page action to editing and navigates away from any opened items */
   const toggleEditingState = () => {
-    // might want to add url for editing?
+    // might want to update url for editing
     navigate(`/invoice/${project!.id}`)
     setAction('editing')
   }
@@ -116,6 +116,7 @@ export default function InvoicePage() {
           <NewLineItemForm handleNew={createLineItem}></NewLineItemForm>
         </StyledDetailPanel>
       ) : (
+        // Would want to eventually create an empty state UI
         <span>There are no invoice Items</span>
       )}
     </>

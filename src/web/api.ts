@@ -35,7 +35,7 @@ class InvoicelyApi {
       throw new Error(`Unable to fetch project ${id}`)
     }
   }
-  // do the project updating here?
+  
   static async updateProject(id: string, projectData: Project) {
     try {
       const req = await axios.post(`${BASE_URL}/${id}`, { project: projectData })
