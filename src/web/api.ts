@@ -32,7 +32,7 @@ class InvoicelyApi {
       const { project } = req.data
       return project
     } catch (err) {
-      throw new Error('Unable to fetch project')
+      throw new Error(`Unable to fetch project ${id}`)
     }
   }
   // do the project updating here?
