@@ -1,15 +1,25 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 import InvoicePanel from './InvoicePanel'
 import NewLineItemForm from './NewLineItemForm'
 import EditLineItemForm from './EditLineItemForm'
 import StyledDetailPanel from './StyledDetailPanel'
+import Spinner from './Spinner'
 
 import InvoicelyApi from '../api'
 
 import type { Project, LineItem } from '../types'
 export type Action = 'viewing' | 'editing' | undefined
+
+const StyledSpinner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+`
 
 export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
@@ -90,7 +100,6 @@ export default function InvoicePage() {
       setProject(updatedProject)
     }
   }
-
   return project ? (
     <>
       <InvoicePanel handleCtaClick={toggleEditingState} project={project}></InvoicePanel>
@@ -111,6 +120,8 @@ export default function InvoicePage() {
       )}
     </>
   ) : (
-    <div>ERROR NO PROJECT</div>
+    <StyledSpinner style={{ height: '100vh', width: '100vh' }}>
+      <Spinner></Spinner>
+    </StyledSpinner>
   )
 }
