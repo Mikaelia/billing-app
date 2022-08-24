@@ -7,11 +7,12 @@ import NewLineItemForm from './NewLineItemForm'
 import EditLineItemForm from './EditLineItemForm'
 import StyledDetailPanel from './StyledDetailPanel'
 import Spinner from './Spinner'
+import UnselectedView from './UnselectedView'
 
 import InvoicelyApi from '../api'
 
 import type { Project, LineItem } from '../types'
-export type Action = 'viewing' | 'editing' | undefined
+export type Action = 'viewing' | 'creating' | undefined
 
 const StyledSpinner = styled.div`
   display: flex;
@@ -50,15 +51,15 @@ export default function InvoicePage() {
   useEffect(() => {
     if (project && !action && !itemId) {
       const firstItem = project.invoice.lineItems[0]
-      navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
+      firstItem && navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
     }
   }, [project])
 
   /** Sets page action to editing and navigates away from any opened items */
-  const toggleEditingState = () => {
+  const toggleCreatingState = () => {
     // might want to update url for editing
     navigate(`/invoice/${project!.id}`)
-    setAction('editing')
+    setAction('creating')
   }
 
   /** Api Actions */
@@ -70,6 +71,7 @@ export default function InvoicePage() {
 
       const updatedProject = await InvoicelyApi.updateProject(id!, newProject!)
       setProject(updatedProject)
+      navigate(`/invoice/${project!.id}`)
     }
   }
 
@@ -102,7 +104,7 @@ export default function InvoicePage() {
   }
   return project ? (
     <>
-      <InvoicePanel handleCtaClick={toggleEditingState} project={project}></InvoicePanel>
+      <InvoicePanel handleCtaClick={toggleCreatingState} project={project}></InvoicePanel>
       {currentLineItem ? (
         <StyledDetailPanel title={currentLineItem.description}>
           <EditLineItemForm
@@ -111,13 +113,13 @@ export default function InvoicePage() {
             item={currentLineItem}
           ></EditLineItemForm>
         </StyledDetailPanel>
-      ) : action === 'editing' ? (
+      ) : action === 'creating' ? (
         <StyledDetailPanel title="Add item">
           <NewLineItemForm handleNew={createLineItem}></NewLineItemForm>
         </StyledDetailPanel>
       ) : (
-        // Would want to eventually create an empty state UI
-        <span>There are no invoice Items</span>
+        // Would want to eventually create an empty state UI as well
+        <UnselectedView></UnselectedView>
       )}
     </>
   ) : (

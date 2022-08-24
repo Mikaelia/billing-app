@@ -41,8 +41,8 @@ type Props = {
 /** Form for creating a new project */
 export default function NewProjectForm({ changeHandler }: Props) {
   const [title, setTitleValue] = useState('')
-  const [lineItemValues, setLineItemValues] = useState([
-    { id: uuidv4(), description: '', amount: '' },
+  const [lineItemValues, setLineItemValues] = useState<LineItem[]>([
+    { id: uuidv4(), description: '', amount: 0 },
   ])
   const [projectData, setProjectData] = useState<Project | null>(null)
 
@@ -54,19 +54,30 @@ export default function NewProjectForm({ changeHandler }: Props) {
   }
 
   const handleLineItemChange = (i: number, e: React.ChangeEvent<HTMLElement>) => {
-    const { name, value } = e.target as HTMLInputElement
-    const newItemValues: LineItemData[] = [...lineItemValues]
-    newItemValues[i][name as keyof LineItemData] = value
+    let { name, value } = e.target as HTMLInputElement
+    updateLineItemValues(name, value, i)
+  }
+
+  const updateLineItemValues = (name: string, value: string, index: number) => {
+    const newItemValues: LineItem[] = [...lineItemValues]
+    if (name === 'amount') {
+      let amountValue: number
+      // store value as number and remove extra decimal points
+      amountValue = parseFloat(parseFloat(value).toFixed(2))
+      newItemValues[index].amount = amountValue
+    } else newItemValues[index].description = value
     setLineItemValues(newItemValues)
   }
 
   /** Form Actions */
 
-  const addFormFields = () => {
-    setLineItemValues([...lineItemValues, { id: uuidv4(), description: '', amount: '' }])
+  const addFormFields = (e: FormEvent) => {
+    e.preventDefault()
+    setLineItemValues([...lineItemValues, { id: uuidv4(), description: '', amount: 0 }])
   }
 
-  const removeFormFields = (i: number) => {
+  const removeFormFields = (e: FormEvent, i: number) => {
+    e.preventDefault()
     let newItemValues = [...lineItemValues]
     newItemValues.splice(i, 1)
     setLineItemValues(newItemValues)
@@ -74,7 +85,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
 
   const clearForm = () => {
     setTitleValue('')
-    setLineItemValues([{ id: '', description: '', amount: '' }])
+    setLineItemValues([{ id: '', description: '', amount: 0 }])
     setProjectData(null)
   }
 
@@ -97,9 +108,10 @@ export default function NewProjectForm({ changeHandler }: Props) {
     return project
   }
 
-  const formatLineItemData = (lineItems: LineItemData[]): LineItem[] => {
+  /** Convert to cents -- could have stored a 'display' value alternatively */
+  const formatLineItemData = (lineItems: LineItem[]): LineItem[] => {
     return lineItems.map((v) => {
-      return { ...v, amount: parseFloat(parseFloat(v.amount).toFixed(2)) }
+      return { ...v, amount: v.amount * 100 }
     })
   }
 
@@ -153,14 +165,14 @@ export default function NewProjectForm({ changeHandler }: Props) {
                   className="cancel-button"
                   format="icon"
                   variant="destructive"
-                  onClick={() => removeFormFields(index)}
+                  onClick={(e) => removeFormFields(e, index)}
                 >
                   <Icon url="circle-cross.svg"></Icon>
                 </Button>
               ) : null}
             </div>
           ))}
-          <Button format="text" onClick={() => addFormFields()}>
+          <Button format="text" onClick={addFormFields}>
             + Add
           </Button>
         </fieldset>
