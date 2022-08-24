@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Project} from './types'
+import { Project } from './types'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -20,7 +20,7 @@ class InvoicelyApi {
     try {
       const req = await axios.post(BASE_URL)
       const { project } = req.data
-      return this.updateProject(project.id, {...projectData, id: project.id})
+      return this.updateProject(project.id, { ...projectData, id: project.id })
     } catch (err) {
       throw new Error('Unable to create project')
     }
@@ -42,7 +42,7 @@ class InvoicelyApi {
       const { project } = req.data
       return project
     } catch (err) {
-      throw new Error('Unable to fetch project')
+      throw new Error('Unable to update project')
     }
   }
 }
