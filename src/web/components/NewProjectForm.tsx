@@ -103,7 +103,7 @@ export default function NewProjectForm({ changeHandler }: Props) {
     })
   }
 
-  /** Validations -- (obviously much more robust in prod) */
+  /** Validations -- (obviously much more robust in prod. Will still submit with null values in line items) */
 
   const isFormValid = (): boolean => {
     return !!(title && lineItemValues.length)

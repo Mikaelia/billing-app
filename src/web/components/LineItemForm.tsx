@@ -21,8 +21,9 @@ export default function LineItemForm({ isDisabled, item, children, handleChange,
   useEffect(() => {
     setDescription(item.description)
     setAmount(item.amount)
-    // convert cents to dollars to display in input
-    setDisplayAmount(item.amount / 100)
+    // convert cents to dollars, restrict to two decimals
+    const formattedData = parseFloat((item.amount / 100).toFixed(2))
+    setDisplayAmount(formattedData)
   }, [item])
 
   /** Focus first input element if form is not disabled */
