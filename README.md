@@ -1,9 +1,11 @@
 
 # Billing App
+A basic app for creating and updating invoices
+
 
 ### Roadmap
 
-Here are a few features and bugs top of mind that have not yet implemented / addressed.
+Here are a few features top of mind that have not yet implemented / addressed.
 
 - [ ] Form validation and input sanitization
 - [ ] Graceful error handling on failing api calls
