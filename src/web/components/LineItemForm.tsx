@@ -11,6 +11,7 @@ type Props = {
   handleChange: (item: LineItem) => void
   children?: React.ReactNode
 }
+/** Shared base for forms relating to a singular line item */
 export default function LineItemForm({ isDisabled, item, children, handleChange, title }: Props) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState<number>(0)
@@ -21,7 +22,7 @@ export default function LineItemForm({ isDisabled, item, children, handleChange,
   useEffect(() => {
     setDescription(item.description)
     setAmount(item.amount)
-    // convert cents to dollars, restrict to two decimals
+    // convert cents to dollars, restrict to two decimals - would pull out to helper eventually
     const formattedData = parseFloat((item.amount / 100).toFixed(2))
     setDisplayAmount(formattedData)
   }, [item])

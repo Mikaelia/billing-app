@@ -37,7 +37,7 @@ export default function ItemCard({ title, price, onClick, className }: Props) {
   })
 
   const formatPrice = (cents: number) => {
-    // convert to dollars
+    // convert to dollars - worth pulling out a helper eventually
     return formatter.format(cents / 100)
   }
 

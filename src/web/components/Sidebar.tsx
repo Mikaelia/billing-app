@@ -52,7 +52,7 @@ type Props = {
 export default function Sidebar({ children }: Props) {
   const location = useLocation()
 
-  // In reality might not work because exact match
+  // Would require an alternate method in prod environemnt
   const isLinkActive = (path: string) => {
     return !!matchPath(location.pathname, path)
   }

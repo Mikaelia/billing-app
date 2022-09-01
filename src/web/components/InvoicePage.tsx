@@ -1,16 +1,27 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 import InvoicePanel from './InvoicePanel'
 import NewLineItemForm from './NewLineItemForm'
 import EditLineItemForm from './EditLineItemForm'
 import StyledDetailPanel from './StyledDetailPanel'
+import Spinner from './Spinner'
+import UnselectedView from './UnselectedView'
 
-import InvoicelyApi from '../api'
+import BillingApi from '../api'
 
 import type { Project, LineItem } from '../types'
-export type Action = 'viewing' | 'editing' | undefined
+export type Action = 'viewing' | 'creating' | undefined
 
+const StyledSpinner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+`
+/** Invoice page - handles page state and api calls relating to updates in line items */
 export default function InvoicePage() {
   const [project, setProject] = useState<Project | null>(null)
   const [currentLineItem, setCurrentLineItem] = useState<LineItem | undefined>(undefined)
@@ -22,7 +33,7 @@ export default function InvoicePage() {
   /** Fetches project based on id from url param */
   useEffect(() => {
     const fetchProjects = async () => {
-      const project = await InvoicelyApi.getProject(projectId!)
+      const project = await BillingApi.getProject(projectId!)
       setProject(project)
     }
     fetchProjects()
@@ -40,15 +51,15 @@ export default function InvoicePage() {
   useEffect(() => {
     if (project && !action && !itemId) {
       const firstItem = project.invoice.lineItems[0]
-      navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
+      firstItem && navigate(`/invoice/${project!.id}/item/${firstItem.id}`)
     }
   }, [project])
 
   /** Sets page action to editing and navigates away from any opened items */
-  const toggleEditingState = () => {
-    // might want to add url for editing?
+  const toggleCreatingState = () => {
+    // might want to update url for editing
     navigate(`/invoice/${project!.id}`)
-    setAction('editing')
+    setAction('creating')
   }
 
   /** Api Actions */
@@ -58,8 +69,9 @@ export default function InvoicePage() {
       const newProject: Project = { ...project }
       newProject.invoice.lineItems = newProject.invoice.lineItems.filter((v) => v.id !== id)
 
-      const updatedProject = await InvoicelyApi.updateProject(id!, newProject!)
+      const updatedProject = await BillingApi.updateProject(id!, newProject!)
       setProject(updatedProject)
+      navigate(`/invoice/${project!.id}`)
     }
   }
 
@@ -68,7 +80,7 @@ export default function InvoicePage() {
       const newProject: Project = { ...project }
       newProject!.invoice.lineItems.push(item)
 
-      const updatedProject = await InvoicelyApi.updateProject(item.id, newProject!)
+      const updatedProject = await BillingApi.updateProject(item.id, newProject!)
       setProject(updatedProject)
     }
   }
@@ -86,14 +98,13 @@ export default function InvoicePage() {
         invoice: { ...project.invoice, lineItems },
       }
 
-      const updatedProject = await InvoicelyApi.updateProject(project.id, newProject!)
+      const updatedProject = await BillingApi.updateProject(project.id, newProject!)
       setProject(updatedProject)
     }
   }
-
   return project ? (
     <>
-      <InvoicePanel handleCtaClick={toggleEditingState} project={project}></InvoicePanel>
+      <InvoicePanel handleCtaClick={toggleCreatingState} project={project}></InvoicePanel>
       {currentLineItem ? (
         <StyledDetailPanel title={currentLineItem.description}>
           <EditLineItemForm
@@ -102,15 +113,18 @@ export default function InvoicePage() {
             item={currentLineItem}
           ></EditLineItemForm>
         </StyledDetailPanel>
-      ) : action === 'editing' ? (
+      ) : action === 'creating' ? (
         <StyledDetailPanel title="Add item">
           <NewLineItemForm handleNew={createLineItem}></NewLineItemForm>
         </StyledDetailPanel>
       ) : (
-        <span>There are no invoice Items</span>
+        // Would want to eventually create an empty state UI as well
+        <UnselectedView></UnselectedView>
       )}
     </>
   ) : (
-    <div>ERROR NO PROJECT</div>
+    <StyledSpinner style={{ height: '100vh', width: '100vh' }}>
+      <Spinner></Spinner>
+    </StyledSpinner>
   )
 }

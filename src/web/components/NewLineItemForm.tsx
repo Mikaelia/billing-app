@@ -9,7 +9,7 @@ import type { LineItem } from '../types'
 type Props = {
   handleNew: (item: LineItem) => void
 }
-
+/** Form for creating a new line item */
 export default function NewLineItemForm({ handleNew }: Props) {
   const [item, setItem] = useState({ id: uuidv4(), description: '', amount: 0 })
 
@@ -17,6 +17,7 @@ export default function NewLineItemForm({ handleNew }: Props) {
     setItem({ id: uuidv4(), description: '', amount: 0 })
   }
 
+  /** Very basid validity check */
   const isFormValid = (): boolean => {
     return !!(item.amount && item.description)
   }

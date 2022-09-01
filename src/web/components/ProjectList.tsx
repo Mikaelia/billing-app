@@ -13,7 +13,6 @@ type Props = {
   projects: Project[]
 }
 
-/** Homepage list of all invoiced projects that have been created */
 export default function ProjectList({ projects }: Props) {
   return (
     <StyledProjectList>

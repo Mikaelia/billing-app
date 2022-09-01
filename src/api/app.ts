@@ -45,5 +45,5 @@ app.post('/', (req, res) => {
 module.exports = app
 
 app.listen(port, () => {
-  console.log(`Invoicely is running on port ${port}.`)
+  console.log(`Billing is running on port ${port}.`)
 })
