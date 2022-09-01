@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import InvoicelyApi from '../api'
+import BillingApi from '../api'
 
 import ProjectsPanel from './ProjectsPanel'
 import NewProjectPanel from './NewProjectPanel'
@@ -18,7 +18,7 @@ function HomePage() {
 
   useEffect(() => {
     async function fetchProjects() {
-      const projects = await InvoicelyApi.getProjects()
+      const projects = await BillingApi.getProjects()
       setProjects(projects)
     }
     fetchProjects()
@@ -26,7 +26,7 @@ function HomePage() {
 
   /** Updates project once handler is called from child */
   const handleProjectsUpdate = async (project: Project) => {
-    const newProject = await InvoicelyApi.createProject(project)
+    const newProject = await BillingApi.createProject(project)
     setNewProject(newProject)
   }
 

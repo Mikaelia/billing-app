@@ -1,10 +1,8 @@
-# Siteline take-home technical challenge
+# Billing App
 
 ### Roadmap
 
 Here are a few features and bugs top of mind that have not yet implemented / addressed.
-
-If you'd like to see or discuss solutions to any of these issues, please let me know:
 
 - [ ] Form validation and input sanitization
 - [ ] Graceful error handling on failing api calls
@@ -59,11 +57,6 @@ Here's the basic structure (smaller components excluded):
   - NewLineItemForm
     - LineItemForm
     - StyledForm
-
-### Done differently?
-
-- As a personal preference I would have probably stuck to plain css and custom props for theming instead of styled-components. I do like the easy theming, encapsulated styles, and being able to use component props to set styles dynamically, but I'm not a huge fan of how it furthur pollutes the template.
-- The way that I broke down the forms into separate is not as intuitive as I'd like, and can be improved. I wanted to extract shared features and styles to reduce duplication, but that comes with the cost of some added complexity.
 
 ### Sources
 

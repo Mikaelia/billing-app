@@ -4,7 +4,7 @@ import { Project } from './types'
 const BASE_URL = 'http://localhost:8080'
 
 /** The API for the app, for querying, creating and updating projects and invoices */
-class InvoicelyApi {
+class BillingApi {
   /** Returns the ID and title of every existing project */
   static async getProjects() {
     try {
@@ -47,4 +47,4 @@ class InvoicelyApi {
   }
 }
 
-export default InvoicelyApi
+export default BillingApi

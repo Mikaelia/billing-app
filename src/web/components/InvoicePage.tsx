@@ -9,7 +9,7 @@ import StyledDetailPanel from './StyledDetailPanel'
 import Spinner from './Spinner'
 import UnselectedView from './UnselectedView'
 
-import InvoicelyApi from '../api'
+import BillingApi from '../api'
 
 import type { Project, LineItem } from '../types'
 export type Action = 'viewing' | 'creating' | undefined
@@ -33,7 +33,7 @@ export default function InvoicePage() {
   /** Fetches project based on id from url param */
   useEffect(() => {
     const fetchProjects = async () => {
-      const project = await InvoicelyApi.getProject(projectId!)
+      const project = await BillingApi.getProject(projectId!)
       setProject(project)
     }
     fetchProjects()
@@ -69,7 +69,7 @@ export default function InvoicePage() {
       const newProject: Project = { ...project }
       newProject.invoice.lineItems = newProject.invoice.lineItems.filter((v) => v.id !== id)
 
-      const updatedProject = await InvoicelyApi.updateProject(id!, newProject!)
+      const updatedProject = await BillingApi.updateProject(id!, newProject!)
       setProject(updatedProject)
       navigate(`/invoice/${project!.id}`)
     }
@@ -80,7 +80,7 @@ export default function InvoicePage() {
       const newProject: Project = { ...project }
       newProject!.invoice.lineItems.push(item)
 
-      const updatedProject = await InvoicelyApi.updateProject(item.id, newProject!)
+      const updatedProject = await BillingApi.updateProject(item.id, newProject!)
       setProject(updatedProject)
     }
   }
@@ -98,7 +98,7 @@ export default function InvoicePage() {
         invoice: { ...project.invoice, lineItems },
       }
 
-      const updatedProject = await InvoicelyApi.updateProject(project.id, newProject!)
+      const updatedProject = await BillingApi.updateProject(project.id, newProject!)
       setProject(updatedProject)
     }
   }
